@@ -1,3 +1,4 @@
+import "./HistoryItem.css";
 import { HistoryItem as HistoryItemType } from "../types";
 import { formatTimestamp } from "../utils/dateUtils";
 import { Trash2 } from "lucide-react";
@@ -12,6 +13,7 @@ interface HistoryItemProps {
   onClick: () => void;
   onContextMenu: (e: React.MouseEvent) => void;
   onDelete: () => void;
+  selectionLabel?: "A" | "B";
 }
 
 export function HistoryItem({
@@ -24,6 +26,7 @@ export function HistoryItem({
   onClick,
   onContextMenu,
   onDelete,
+  selectionLabel,
 }: HistoryItemProps) {
   return (
     <div
@@ -35,6 +38,11 @@ export function HistoryItem({
       title={item.url}
     >
       <span className="history-url">
+        {selectionLabel && (
+          <span className="selection-label" data-label={selectionLabel}>
+            {selectionLabel}
+          </span>
+        )}
         {isCollapsed ? totalItems - index : item.url}
       </span>
       {!isCollapsed && (

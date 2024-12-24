@@ -1,0 +1,37 @@
+.history-url {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Reserve space for the label */
+.history-url::before {
+  content: "";
+  min-width: 15px; /* Reduced width since we removed the text */
+  height: 20px;
+  display: inline-block;
+}
+
+.selection-label {
+  position: absolute;
+  margin-right: 0;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 0.8em;
+  font-weight: bold;
+  display: inline-flex;
+  align-items: center;
+}
+
+/* First item - green */
+.selection-label[data-label="A"] {
+  background-color: #2d4b2d;
+  color: #4caf50;
+}
+
+/* Second item - blue */
+.selection-label[data-label="B"] {
+  background-color: #2d3b4b;
+  color: #64b5f6;
+}

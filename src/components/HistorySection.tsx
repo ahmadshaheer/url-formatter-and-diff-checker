@@ -76,6 +76,13 @@ export function HistorySection({
               onItemContextMenu(index);
             }}
             onDelete={() => onDeleteItem(index)}
+            selectionLabel={
+              selectedItems.includes(index)
+                ? selectedItems.indexOf(index) === 0
+                  ? "A"
+                  : "B"
+                : undefined
+            }
           />
         ))}
       </div>
