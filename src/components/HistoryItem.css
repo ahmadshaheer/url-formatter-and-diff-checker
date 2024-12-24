@@ -8,7 +8,7 @@
 /* Reserve space for the label */
 .history-url::before {
   content: "";
-  min-width: 15px; /* Reduced width since we removed the text */
+  min-width: 15px;
   height: 20px;
   display: inline-block;
 }
@@ -34,4 +34,22 @@
 .selection-label[data-label="B"] {
   background-color: #2d3b4b;
   color: #64b5f6;
+}
+
+/* Center label in collapsed state */
+.collapsed .history-item .selection-label {
+  position: absolute;
+  left: 4px;
+  padding: 0;
+  background: none;
+  width: auto;
+}
+
+.collapsed .history-url {
+  position: relative;
+  justify-content: center;
+}
+
+.collapsed .history-url::before {
+  display: none;
 }
