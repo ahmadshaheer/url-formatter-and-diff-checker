@@ -34,6 +34,7 @@ function App() {
     setUrl("");
     setParsedResult(null);
     setActiveIndex(null);
+    setActiveTab("parser");
   };
 
   const toggleItemSelection = (index: number) => {
@@ -45,7 +46,6 @@ function App() {
       if (newSelection.length < 2) {
         setDiffResult(null);
       } else {
-        setActiveTab("diff");
         const [oldIndex, newIndex] = newSelection;
         const oldUrl = history[oldIndex].url;
         const newUrl = history[newIndex].url;
@@ -53,8 +53,18 @@ function App() {
         setDiffResult(diff);
       }
 
+      setActiveTab("diff");
       return newSelection;
     });
+  };
+
+  const handleClearHistory = () => {
+    if (window.confirm("Are you sure you want to clear all history?")) {
+      clearHistory();
+      setSelectedItems([]);
+      setActiveIndex(null);
+      setDiffResult(null);
+    }
   };
 
   return (
@@ -71,11 +81,12 @@ function App() {
           } else {
             setUrl(history[index].url);
             setActiveIndex(index);
+            setActiveTab("parser");
           }
         }}
         onItemContextMenu={toggleItemSelection}
         onNewUrl={startNewUrl}
-        onClearHistory={clearHistory}
+        onClearHistory={handleClearHistory}
       />
 
       <div className="main-content">
