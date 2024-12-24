@@ -1,39 +1,48 @@
 import { ParsedUrl, DiffResult } from "../types";
 
-export function urlToReadableJson(url: string): ParsedUrl {
+export function urlToReadableJson(urlString: string): ParsedUrl {
   try {
-    const parsedUrl = new URL(url);
-    const result: ParsedUrl = {
-      base_url: `${parsedUrl.protocol}//${parsedUrl.host}${parsedUrl.pathname}`,
-      params: {},
-    };
+    const url = new URL(urlString);
+    const params: Record<string, string | string[]> = {};
 
-    const queryParams = new URLSearchParams(parsedUrl.search);
-    for (const [key, value] of queryParams.entries()) {
-      if (key === "compositeQuery") {
-        let decodedValue = value.replace(/%25/g, "%");
-        try {
-          const jsonValue = JSON.parse(decodeURIComponent(decodedValue));
-          result.params[key] = jsonValue;
-        } catch {
-          decodedValue = decodeURIComponent(decodedValue);
-          const jsonValue = JSON.parse(decodedValue);
-          result.params[key] = jsonValue;
+    url.searchParams.forEach((value, key) => {
+      if (key in params) {
+        const existingValue = params[key];
+        if (Array.isArray(existingValue)) {
+          existingValue.push(value);
+        } else {
+          params[key] = [existingValue, value];
         }
       } else {
+        // Try parsing with progressive decoding
+        let decodedValue = value;
+        while (decodedValue.includes("%")) {
+          try {
+            const decoded = decodeURIComponent(decodedValue);
+            if (decoded === decodedValue) break;
+            decodedValue = decoded;
+          } catch {
+            break;
+          }
+        }
+
         try {
-          result.params[key] = JSON.parse(value);
+          params[key] = JSON.parse(decodedValue);
         } catch {
-          result.params[key] = value;
+          params[key] = value;
         }
       }
-    }
-    return result;
-  } catch (error) {
+    });
+
     return {
-      base_url: "",
+      baseUrl: `${url.protocol}//${url.host}${url.pathname}`,
+      params,
+    };
+  } catch (err) {
+    return {
+      error: (err as Error).message,
+      baseUrl: "",
       params: {},
-      error: `Failed to parse URL: ${(error as Error).message}`,
     };
   }
 }
@@ -44,9 +53,9 @@ export function computeUrlDiff(oldUrl: string, newUrl: string): DiffResult {
 
   const result: DiffResult = {
     base_url: {
-      old: oldParsed.base_url,
-      new: newParsed.base_url,
-      changed: oldParsed.base_url !== newParsed.base_url,
+      old: oldParsed.baseUrl,
+      new: newParsed.baseUrl,
+      changed: oldParsed.baseUrl !== newParsed.baseUrl,
     },
     params: {
       added: {},
@@ -82,6 +91,17 @@ export function computeUrlDiff(oldUrl: string, newUrl: string): DiffResult {
   return result;
 }
 
-export function formatJsonString(obj: any): string {
-  return JSON.stringify(obj, null, 2);
+export function formatJsonString(parsed: ParsedUrl): string {
+  if (parsed.error) {
+    return parsed.error;
+  }
+
+  return JSON.stringify(
+    {
+      baseUrl: parsed.baseUrl,
+      params: parsed.params,
+    },
+    null,
+    2
+  );
 }

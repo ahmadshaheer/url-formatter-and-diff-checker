@@ -1,5 +1,7 @@
+import "./HistorySection.css";
 import { HistoryItem as HistoryItemType } from "../types";
 import { HistoryItem } from "./HistoryItem";
+import { ChevronLeft, ChevronRight, Plus, Eraser } from "lucide-react";
 
 interface HistorySectionProps {
   history: HistoryItemType[];
@@ -11,6 +13,8 @@ interface HistorySectionProps {
   onItemContextMenu: (index: number) => void;
   onNewUrl: () => void;
   onClearHistory: () => void;
+  alert?: React.ReactNode;
+  onDeleteItem: (index: number) => void;
 }
 
 export function HistorySection({
@@ -23,6 +27,8 @@ export function HistorySection({
   onItemContextMenu,
   onNewUrl,
   onClearHistory,
+  alert,
+  onDeleteItem,
 }: HistorySectionProps) {
   return (
     <div className={`history-section ${isHistoryCollapsed ? "collapsed" : ""}`}>
@@ -32,20 +38,26 @@ export function HistorySection({
           onClick={onToggleCollapse}
           title={isHistoryCollapsed ? "Expand history" : "Collapse history"}
         >
-          {isHistoryCollapsed ? "→" : "←"}
+          {isHistoryCollapsed ? (
+            <ChevronRight size={16} />
+          ) : (
+            <ChevronLeft size={16} />
+          )}
         </button>
         <h3 className="history-title">Recent URLs</h3>
         <div className="history-buttons">
           <button className="new-url-button" onClick={onNewUrl} title="New URL">
-            {isHistoryCollapsed ? "" : "New URL"}
+            {isHistoryCollapsed ? <Plus size={16} /> : "New URL"}
           </button>
-          <button
-            className="clear-history"
-            onClick={onClearHistory}
-            title="Clear History"
-          >
-            {isHistoryCollapsed ? "" : "Clear History"}
-          </button>
+          {history.length > 0 && (
+            <button
+              className="clear-history"
+              onClick={onClearHistory}
+              title="Clear History"
+            >
+              {isHistoryCollapsed ? <Eraser size={16} /> : "Clear History"}
+            </button>
+          )}
         </div>
       </div>
       <div className="history-list">
@@ -54,6 +66,7 @@ export function HistorySection({
             key={index}
             item={item}
             index={index}
+            totalItems={history.length}
             isCollapsed={isHistoryCollapsed}
             isActive={activeIndex === index}
             isSelected={selectedItems.includes(index)}
@@ -62,9 +75,11 @@ export function HistorySection({
               e.preventDefault();
               onItemContextMenu(index);
             }}
+            onDelete={() => onDeleteItem(index)}
           />
         ))}
       </div>
+      {alert}
     </div>
   );
 }

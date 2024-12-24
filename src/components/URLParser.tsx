@@ -6,6 +6,7 @@ interface URLParserProps {
   parsedResult: ParsedUrl | null;
   onUrlChange: (url: string) => void;
   onParse: () => void;
+  alert?: React.ReactNode;
 }
 
 export function URLParser({
@@ -13,6 +14,7 @@ export function URLParser({
   parsedResult,
   onUrlChange,
   onParse,
+  alert,
 }: URLParserProps) {
   return (
     <div className="tab-content">
@@ -25,6 +27,7 @@ export function URLParser({
         Parse URL
       </button>
       {parsedResult && <pre>{formatJsonString(parsedResult)}</pre>}
+      {alert}
     </div>
   );
 }

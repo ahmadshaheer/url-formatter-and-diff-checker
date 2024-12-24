@@ -15,11 +15,17 @@ export function useHistory() {
       timestamp: new Date().toISOString(),
     };
 
+    const newIndex = 0; // Index will be 0 since we add to the start
     setHistory((prev) => {
       const newHistory = [newItem, ...prev];
       localStorage.setItem("urlHistory", JSON.stringify(newHistory));
       return newHistory;
     });
+    return newIndex;
+  };
+
+  const findDuplicateIndex = (url: string): number => {
+    return history.findIndex((item) => item.url === url);
   };
 
   const clearHistory = () => {
@@ -27,5 +33,33 @@ export function useHistory() {
     localStorage.removeItem("urlHistory");
   };
 
-  return { history, addToHistory, clearHistory };
+  const deleteHistoryItem = (index: number) => {
+    setHistory((prev) => {
+      const newHistory = [...prev];
+      newHistory.splice(index, 1);
+      localStorage.setItem("urlHistory", JSON.stringify(newHistory));
+      return newHistory;
+    });
+  };
+
+  const updateHistoryItem = (index: number, url: string) => {
+    setHistory((prev) => {
+      const newHistory = [...prev];
+      newHistory[index] = {
+        url,
+        timestamp: new Date().toISOString(),
+      };
+      localStorage.setItem("urlHistory", JSON.stringify(newHistory));
+      return newHistory;
+    });
+  };
+
+  return {
+    history,
+    addToHistory,
+    clearHistory,
+    findDuplicateIndex,
+    deleteHistoryItem,
+    updateHistoryItem,
+  };
 }

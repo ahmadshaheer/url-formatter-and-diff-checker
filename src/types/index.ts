@@ -1,7 +1,7 @@
 export interface ParsedUrl {
-  base_url: string;
-  params: Record<string, any>;
   error?: string;
+  baseUrl: string;
+  params: Record<string, string | string[] | object>;
 }
 
 export interface HistoryItem {
@@ -16,10 +16,13 @@ export interface DiffResult {
     changed: boolean;
   };
   params: {
-    added: Record<string, any>;
-    removed: Record<string, any>;
-    changed: Record<string, { old: any; new: any }>;
-    unchanged: Record<string, any>;
+    added: Record<string, string | string[] | object>;
+    removed: Record<string, string | string[] | object>;
+    changed: Record<
+      string,
+      { old: string | string[] | object; new: string | string[] | object }
+    >;
+    unchanged: Record<string, string | string[] | object>;
   };
 }
 

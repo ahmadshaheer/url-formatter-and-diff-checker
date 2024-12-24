@@ -134,6 +134,7 @@ pre {
   position: sticky;
   top: 20px;
   transition: width 0.3s ease;
+  position: relative;
 }
 
 .history-section.collapsed {
@@ -203,6 +204,9 @@ pre {
 .history-list {
   height: calc(100% - 40px); /* Adjust for header height */
   overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
 }
 
 .history-item {
@@ -211,10 +215,9 @@ pre {
   gap: 10px;
   padding: 8px;
   background-color: var(--bg-color);
-  border: 1px solid var(--textarea-border);
+  border: 1px solid var(--bg-color);
   border-radius: 4px;
   cursor: pointer;
-  transition: all 0.2s ease;
 }
 
 .history-item:hover {
@@ -411,14 +414,6 @@ pre {
   font-size: 1.2em;
 }
 
-.collapsed .new-url-button::after {
-  content: "+";
-}
-
-.collapsed .clear-history::after {
-  content: "×";
-}
-
 .collapsed .new-url-button span,
 .collapsed .clear-history span {
   display: none;
@@ -426,7 +421,7 @@ pre {
 
 /* Selection styles */
 .history-item.selected {
-  border: 2px solid var(--button-bg);
+  border-color: var(--button-bg);
   background-color: rgba(76, 175, 80, 0.1);
 }
 
@@ -434,7 +429,7 @@ pre {
 .diff-result {
   margin-top: 20px;
   border-radius: 4px;
-  overflow: hidden;
+  overflow: auto;
   font-size: 0.9em;
 }
 
@@ -563,18 +558,45 @@ pre {
   overflow: hidden;
 }
 
-/* Update diff content styles */
-.tab-content .diff-result {
+/* Update diff container styles */
+.diff-container {
   flex: 1;
-  margin: 0;
-}
-
-.diff-instructions {
-  flex: 1;
-  overflow: auto;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  overflow: hidden;
+}
+
+.diff-title {
+  margin: 0 0 15px 0;
+  color: var(--text-color);
+  font-size: 1.2em;
+}
+
+/* Make the diff viewer content scrollable */
+.diff-result {
+  flex: 1;
+  overflow: auto;
+  background-color: var(--diff-background-color);
+  border-radius: 4px;
+  padding: 15px;
+}
+
+/* Remove the title margin from diff-result */
+.diff-result h3 {
+  display: none;
+}
+
+/* Remove duplicate/conflicting styles */
+.diff-result > div {
+  height: 100%;
+}
+
+.diff-result pre {
+  margin: 0;
+  padding: 8px;
+  font-family: var(--diff-font-family);
+  font-size: 0.9em;
+  line-height: 1.4;
 }
 
 /* Compare mode button */
@@ -653,4 +675,205 @@ pre {
   display: flex;
   flex-direction: column;
   justify-content: center;
+}
+
+/* Alert styles */
+.alert-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.alert {
+  position: relative;
+  background-color: var(--textarea-bg);
+  border: 2px solid var(--button-bg);
+  padding: 20px;
+  border-radius: 8px;
+  max-width: 400px;
+  width: 90%;
+  animation: fadeIn 0.2s ease;
+}
+
+.alert p {
+  margin: 0 0 20px 0;
+  color: var(--text-color);
+  text-align: center;
+}
+
+.alert-buttons {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+}
+
+.alert-buttons button {
+  padding: 8px 24px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9em;
+  min-width: 80px;
+}
+
+.alert-buttons button:first-child {
+  background-color: var(--button-bg);
+  color: white;
+}
+
+.alert-buttons button:last-child {
+  background: none;
+  border: 1px solid var(--textarea-border);
+  color: var(--text-color);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Update URLParser container to handle alert positioning */
+.tab-content {
+  position: relative;
+}
+
+/* Update alert styles to work in both contexts */
+.history-section .alert {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 1;
+}
+
+/* Delete button styles */
+.delete-button {
+  background: none;
+  border: none;
+  color: var(--text-color);
+  opacity: 0;
+  cursor: pointer;
+  padding: 4px 8px;
+  font-size: 1.2em;
+  transition: opacity 0.2s ease, color 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.history-item:hover .delete-button {
+  opacity: 0.5;
+}
+
+.delete-button:hover {
+  opacity: 1 !important;
+  color: #dc3545;
+}
+
+/* Remove outlines and add focus styles */
+textarea,
+button {
+  outline: none;
+}
+
+textarea:focus {
+  border-color: var(--button-bg);
+  box-shadow: 0 0 0 1px var(--button-bg);
+}
+
+button:focus {
+  opacity: 0.9;
+}
+
+/* For buttons that have borders, add a focus style */
+.theme-toggle:focus,
+.clear-history:focus {
+  border-color: var(--button-bg);
+}
+
+/* For buttons without borders, add a subtle background on focus */
+.delete-button:focus,
+.toggle-history:focus {
+  background-color: var(--textarea-border);
+  border-radius: 4px;
+}
+
+/* Remove the emoji-specific styles */
+.collapsed .new-url-button::after,
+.collapsed .clear-history::after {
+  content: none;
+}
+
+/* Update icon styles */
+.delete-button svg,
+.toggle-history svg,
+.theme-toggle svg {
+  stroke-width: 2px;
+}
+
+.history-item:hover .delete-button svg {
+  color: #dc3545;
+}
+
+/* Adjust button sizes for icons */
+.collapsed .new-url-button,
+.collapsed .clear-history {
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+}
+
+/* Theme toggle adjustments */
+.theme-toggle .theme-icon {
+  display: flex;
+  align-items: center;
+}
+
+/* Diff mode exit button styles */
+.exit-diff-button,
+.cancel-diff-button {
+  background: none;
+  border: 1px solid var(--textarea-border);
+  color: var(--text-color);
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9em;
+  transition: all 0.2s ease;
+}
+
+.exit-diff-button:hover,
+.cancel-diff-button:hover {
+  border-color: var(--button-bg);
+  color: var(--button-bg);
+}
+
+.diff-header {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 15px;
+}
+
+.diff-instructions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
 }
