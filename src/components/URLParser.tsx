@@ -1,5 +1,10 @@
 import { ParsedUrl } from "../types";
-import { formatJsonString } from "../utils/urlParser";
+import { JsonEditor as Editor } from "jsoneditor-react";
+import "jsoneditor/dist/jsoneditor.css";
+import ace from "brace";
+import "jsoneditor-react/es/editor.min.css";
+import "brace/mode/json";
+import "brace/theme/github";
 
 interface URLParserProps {
   url: string;
@@ -26,7 +31,18 @@ export function URLParser({
       <button className="parse-button" onClick={onParse}>
         Parse URL
       </button>
-      {parsedResult && <pre>{formatJsonString(parsedResult)}</pre>}
+      {parsedResult && (
+        <div className="json-editor-container">
+          <Editor
+            mode="tree"
+            value={parsedResult}
+            history
+            onChange={() => {}} // Read-only mode
+            ace={ace}
+            theme="ace/theme/github"
+          />
+        </div>
+      )}
       {alert}
     </div>
   );

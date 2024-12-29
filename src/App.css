@@ -81,7 +81,7 @@ body {
 
 /* Input Area */
 textarea {
-  width: 100%;
+  width: 96%;
   height: 100px;
   min-height: 100px;
   padding: 12px;
@@ -555,7 +555,7 @@ pre {
   height: calc(100vh - 180px);
   display: flex;
   flex-direction: column;
-  overflow: hidden;
+  overflow: auto;
 }
 
 /* Update diff container styles */
