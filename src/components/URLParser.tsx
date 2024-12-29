@@ -1,3 +1,4 @@
+import "./URLParser.css"
 import { ParsedUrl } from "../types";
 import { JsonEditor as Editor } from "jsoneditor-react";
 import "jsoneditor/dist/jsoneditor.css";
@@ -5,7 +6,9 @@ import ace from "brace";
 import "jsoneditor-react/es/editor.min.css";
 import "brace/mode/json";
 import "brace/theme/github";
+import "brace/theme/monokai";
 import { useRef, useEffect } from "react";
+import { useTheme } from "../context/ThemeContext";
 
 interface URLParserProps {
   url: string;
@@ -25,6 +28,7 @@ export function URLParser({
   shouldFocus,
 }: URLParserProps) {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const { theme } = useTheme();
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -64,9 +68,9 @@ export function URLParser({
             mode="tree"
             value={parsedResult}
             history
-            onChange={() => {}} // Read-only mode
+            onChange={() => {}}
             ace={ace}
-            theme="ace/theme/github"
+            theme={theme === "dark" ? "ace/theme/monokai" : "ace/theme/github"}
           />
         </div>
       )}

@@ -1,0 +1,56 @@
+.json-editor-container {
+  flex: 1;
+  overflow: hidden;
+  border-radius: 4px;
+}
+
+/* Light theme styles */
+[data-theme="light"] .json-editor-container .jsoneditor {
+  border: thin solid var(--textarea-border);
+  background-color: var(--bg-color);
+}
+
+[data-theme="light"] .json-editor-container .jsoneditor-menu {
+  background-color: var(--textarea-bg);
+  border-bottom: 1px solid var(--textarea-border);
+}
+
+/* Dark theme styles */
+[data-theme="dark"] .json-editor-container .jsoneditor {
+  border: thin solid var(--textarea-border);
+  background-color: var(--bg-color);
+}
+
+[data-theme="dark"] .json-editor-container .jsoneditor-menu {
+  background-color: var(--textarea-bg);
+  border-bottom: 1px solid var(--textarea-border);
+}
+
+[data-theme="dark"] .json-editor-container .jsoneditor-field,
+[data-theme="dark"] .json-editor-container .jsoneditor-value {
+  color: var(--text-color);
+}
+
+/* [data-theme="dark"] .json-editor-container .jsoneditor-search input {
+  background-color: var(--textarea-bg);
+  color: var(--text-color);
+} */
+
+[data-theme="dark"]
+  .json-editor-container
+  div.jsoneditor-tree
+  button.jsoneditor-button {
+  background-color: var(--textarea-bg);
+  color: var(--text-color);
+}
+
+[data-theme="dark"]
+  .json-editor-container
+  div.jsoneditor-tree
+  button.jsoneditor-dragarea {
+  background-color: var(--textarea-bg);
+}
+
+[data-theme="dark"] .json-editor-container div.jsoneditor-tree {
+  background-color: var(--bg-color);
+}
