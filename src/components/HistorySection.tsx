@@ -1,7 +1,7 @@
 import "./HistorySection.css";
 import { HistoryItem as HistoryItemType } from "../types";
 import { HistoryItem } from "./HistoryItem";
-import { ChevronLeft, ChevronRight, Plus, Eraser } from "lucide-react";
+import { ChevronLeft, ChevronRight, Eraser } from "lucide-react";
 
 interface HistorySectionProps {
   history: HistoryItemType[];
@@ -25,7 +25,6 @@ export function HistorySection({
   onToggleCollapse,
   onItemClick,
   onItemContextMenu,
-  onNewUrl,
   onClearHistory,
   alert,
   onDeleteItem,
@@ -46,9 +45,6 @@ export function HistorySection({
         </button>
         <h3 className="history-title">Recent URLs</h3>
         <div className="history-buttons">
-          <button className="new-url-button" onClick={onNewUrl} title="New URL">
-            {isHistoryCollapsed ? <Plus size={16} /> : "New URL"}
-          </button>
           {history.length > 0 && (
             <button
               className="clear-history"

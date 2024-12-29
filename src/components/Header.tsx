@@ -1,18 +1,25 @@
 import { useTheme } from "../context/ThemeContext";
-import { Sun, Moon } from "lucide-react";
+import { Sun, Moon, Plus } from "lucide-react";
 
 interface HeaderProps {
   activeTab: "parser" | "diff";
   onTabChange: (tab: "parser" | "diff") => void;
+  onNewUrl: () => void;
 }
 
-export function Header({ activeTab, onTabChange }: HeaderProps) {
+export function Header({ activeTab, onTabChange, onNewUrl }: HeaderProps) {
   const { theme, toggleTheme } = useTheme();
 
   return (
     <>
       <div className="header">
-        <h1>URL Parser</h1>
+        <div className="header-left">
+          <h1>URL Parser</h1>
+          <button className="new-url-button" onClick={onNewUrl} title="New URL">
+            <Plus size={16} />
+            <span>New URL</span>
+          </button>
+        </div>
         <button className="theme-toggle" onClick={toggleTheme}>
           <span className="theme-icon">
             {theme === "light" ? <Sun size={16} /> : <Moon size={16} />}

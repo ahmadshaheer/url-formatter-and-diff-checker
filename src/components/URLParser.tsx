@@ -5,6 +5,7 @@ import ace from "brace";
 import "jsoneditor-react/es/editor.min.css";
 import "brace/mode/json";
 import "brace/theme/github";
+import { useRef, useEffect } from "react";
 
 interface URLParserProps {
   url: string;
@@ -12,6 +13,7 @@ interface URLParserProps {
   onUrlChange: (url: string) => void;
   onParse: () => void;
   alert?: React.ReactNode;
+  shouldFocus?: boolean;
 }
 
 export function URLParser({
@@ -20,13 +22,38 @@ export function URLParser({
   onUrlChange,
   onParse,
   alert,
+  shouldFocus,
 }: URLParserProps) {
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.ctrlKey && e.key === "Enter") {
+        onParse();
+      }
+    };
+
+    const textarea = textareaRef.current;
+    textarea?.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      textarea?.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [onParse]);
+
+  useEffect(() => {
+    if (shouldFocus) {
+      textareaRef.current?.focus();
+    }
+  }, [shouldFocus]);
+
   return (
     <div className="tab-content">
       <textarea
+        ref={textareaRef}
         value={url}
         onChange={(e) => onUrlChange(e.target.value)}
-        placeholder="Paste your URL here..."
+        placeholder="Paste your URL here... (Ctrl+Enter to parse)"
       />
       <button className="parse-button" onClick={onParse}>
         Parse URL

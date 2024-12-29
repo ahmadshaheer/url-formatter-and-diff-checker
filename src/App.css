@@ -358,6 +358,7 @@ pre {
 }
 
 .new-url-button {
+  display: flex;
   background: var(--button-bg);
   border: none;
   color: white;

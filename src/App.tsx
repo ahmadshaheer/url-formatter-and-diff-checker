@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "./App.css";
 import { HistorySection } from "./components/HistorySection";
 import { URLParser } from "./components/URLParser";
@@ -31,6 +31,7 @@ function App() {
   } | null>(null);
   const [showClearAlert, setShowClearAlert] = useState(false);
   const [deleteAlert, setDeleteAlert] = useState<number | null>(null);
+  const [shouldFocusTextarea, setShouldFocusTextarea] = useState(false);
 
   const handleAddUrl = (url: string) => {
     const duplicateIndex = findDuplicateIndex(url);
@@ -75,7 +76,14 @@ function App() {
     setParsedResult(null);
     setActiveIndex(null);
     setActiveTab("parser");
+    setShouldFocusTextarea(true);
   };
+
+  useEffect(() => {
+    if (shouldFocusTextarea) {
+      setShouldFocusTextarea(false);
+    }
+  }, [shouldFocusTextarea]);
 
   const toggleItemSelection = (index: number) => {
     setSelectedItems((prev) => {
@@ -165,7 +173,11 @@ function App() {
       />
 
       <div className="main-content">
-        <Header activeTab={activeTab} onTabChange={setActiveTab} />
+        <Header
+          activeTab={activeTab}
+          onTabChange={setActiveTab}
+          onNewUrl={startNewUrl}
+        />
 
         {activeTab === "parser" && (
           <URLParser
@@ -173,6 +185,7 @@ function App() {
             parsedResult={parsedResult}
             onUrlChange={setUrl}
             onParse={parseUrl}
+            shouldFocus={shouldFocusTextarea}
           />
         )}
 

@@ -1,0 +1,23 @@
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.header .new-url-button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--button-bg);
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9em;
+  transition: background-color 0.2s ease;
+}
+
+.header .new-url-button:hover {
+  background: var(--button-hover);
+}
