@@ -1,4 +1,4 @@
-import "./URLParser.css"
+import "./URLParser.css";
 import { ParsedUrl } from "../types";
 import { JsonEditor as Editor } from "jsoneditor-react";
 import "jsoneditor/dist/jsoneditor.css";
@@ -65,6 +65,7 @@ export function URLParser({
       {parsedResult && (
         <div className="json-editor-container">
           <Editor
+            key={JSON.stringify(parsedResult)}
             mode="tree"
             value={parsedResult}
             history
