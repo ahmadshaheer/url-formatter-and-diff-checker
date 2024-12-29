@@ -1,6 +1,6 @@
 import "./URLParser.css";
 import { ParsedUrl } from "../types";
-import { JsonEditor as Editor } from "jsoneditor-react";
+import { JsonEditor } from "jsoneditor-react";
 import "jsoneditor/dist/jsoneditor.css";
 import ace from "brace";
 import "jsoneditor-react/es/editor.min.css";
@@ -19,6 +19,9 @@ interface URLParserProps {
   shouldFocus?: boolean;
 }
 
+// Add type for editor instance
+type EditorType = InstanceType<typeof JsonEditor>;
+
 export function URLParser({
   url,
   parsedResult,
@@ -28,6 +31,7 @@ export function URLParser({
   shouldFocus,
 }: URLParserProps) {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const editorRef = useRef<EditorType>(null);
   const { theme } = useTheme();
 
   useEffect(() => {
@@ -51,6 +55,17 @@ export function URLParser({
     }
   }, [shouldFocus]);
 
+  useEffect(() => {
+    // Small delay to ensure editor is mounted and initialized
+    const timer = setTimeout(() => {
+      if (editorRef.current) {
+        editorRef.current.expandAll();
+      }
+    }, 0);
+
+    return () => clearTimeout(timer);
+  }, [parsedResult]);
+
   return (
     <div className="tab-content">
       <textarea
@@ -64,7 +79,7 @@ export function URLParser({
       </button>
       {parsedResult && (
         <div className="json-editor-container">
-          <Editor
+          <JsonEditor
             key={JSON.stringify(parsedResult)}
             mode="tree"
             value={parsedResult}
@@ -72,6 +87,7 @@ export function URLParser({
             onChange={() => {}}
             ace={ace}
             theme={theme === "dark" ? "ace/theme/monokai" : "ace/theme/github"}
+            ref={editorRef}
           />
         </div>
       )}

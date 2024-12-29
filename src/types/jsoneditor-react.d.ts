@@ -8,5 +8,7 @@ declare module "jsoneditor-react" {
     history?: boolean;
     ace?: any;
     theme?: string;
-  }> {}
+  }> {
+    [x: string]: any;
+  }
 }
