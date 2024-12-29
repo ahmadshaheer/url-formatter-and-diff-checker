@@ -1,6 +1,5 @@
 .json-editor-container {
   flex: 1;
-  overflow: hidden;
   border-radius: 4px;
 }
 
@@ -30,11 +29,6 @@
 [data-theme="dark"] .json-editor-container .jsoneditor-value {
   color: var(--text-color);
 }
-
-/* [data-theme="dark"] .json-editor-container .jsoneditor-search input {
-  background-color: var(--textarea-bg);
-  color: var(--text-color);
-} */
 
 [data-theme="dark"]
   .json-editor-container
