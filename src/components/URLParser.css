@@ -3,17 +3,6 @@
   border-radius: 4px;
 }
 
-/* Light theme styles */
-[data-theme="light"] .json-editor-container .jsoneditor {
-  border: thin solid var(--textarea-border);
-  background-color: var(--bg-color);
-}
-
-[data-theme="light"] .json-editor-container .jsoneditor-menu {
-  background-color: var(--textarea-bg);
-  border-bottom: 1px solid var(--textarea-border);
-}
-
 /* Dark theme styles */
 [data-theme="dark"] .json-editor-container .jsoneditor {
   border: thin solid var(--textarea-border);
