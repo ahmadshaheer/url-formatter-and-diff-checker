@@ -8,7 +8,34 @@
   border: thin solid var(--textarea-border);
   background-color: var(--bg-color);
 }
+[data-theme="dark"] .json-editor-container .jsoneditor-highlight {
+  background-color: var(--textarea-bg);
+}
+[data-theme="dark"]
+  .json-editor-container
+  div.jsoneditor-field[contenteditable="true"]:focus,
+div.jsoneditor-field[contenteditable="true"]:hover,
+div.jsoneditor-value[contenteditable="true"]:focus,
+div.jsoneditor-value[contenteditable="true"]:hover,
+div.jsoneditor-field.jsoneditor-highlight,
+div.jsoneditor-value.jsoneditor-highlight {
+  background-color: #4e4e34 !important;
+}
 
+[data-theme="dark"] .json-editor-container .jsoneditor-frame {
+  background-color: #222;
+}
+[data-theme="dark"] .json-editor-container .jsoneditor input,
+[data-theme="dark"] .jsoneditor-frame .jsoneditor input:not([type]),
+[data-theme="dark"] .jsoneditor input[type="text"],
+[data-theme="dark"] .jsoneditor input[type="search"],
+[data-theme="dark"] .jsoneditor-modal input,
+[data-theme="dark"] .jsoneditor-modal input:not([type]),
+[data-theme="dark"] .jsoneditor-modal input[type="text"],
+[data-theme="dark"] .jsoneditor-modal input[type="search"] {
+  background-color: #222;
+  color: #fff;
+}
 [data-theme="dark"] .json-editor-container .jsoneditor-menu {
   background-color: var(--textarea-bg);
   border-bottom: 1px solid var(--textarea-border);
