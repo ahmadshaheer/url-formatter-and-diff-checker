@@ -8,6 +8,7 @@ import { useHistory } from "./hooks/useHistory";
 import { urlToReadableJson, computeUrlDiff } from "./utils/urlParser";
 import { ParsedUrl, DiffResult } from "./types";
 import { Alert } from "./components/Alert";
+import { TimestampComparer } from "./components/TimestampComparer";
 
 function App() {
   const {
@@ -24,7 +25,9 @@ function App() {
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
   const [selectedItems, setSelectedItems] = useState<number[]>([]);
   const [diffResult, setDiffResult] = useState<DiffResult | null>(null);
-  const [activeTab, setActiveTab] = useState<"parser" | "diff">("parser");
+  const [activeTab, setActiveTab] = useState<"parser" | "diff" | "timestamp">(() => {
+    return (localStorage.getItem("activeTab") as "parser" | "diff" | "timestamp") || "parser";
+  });
   const [duplicateAlert, setDuplicateAlert] = useState<{
     url: string;
     index: number;
@@ -32,6 +35,11 @@ function App() {
   const [showClearAlert, setShowClearAlert] = useState(false);
   const [deleteAlert, setDeleteAlert] = useState<number | null>(null);
   const [shouldFocusTextarea, setShouldFocusTextarea] = useState(false);
+
+  // Save active tab when it changes
+  useEffect(() => {
+    localStorage.setItem("activeTab", activeTab);
+  }, [activeTab]);
 
   const handleAddUrl = (url: string) => {
     const duplicateIndex = findDuplicateIndex(url);
@@ -148,29 +156,31 @@ function App() {
 
   return (
     <div className="container">
-      <HistorySection
-        history={history}
-        isHistoryCollapsed={isHistoryCollapsed}
-        selectedItems={selectedItems}
-        activeIndex={activeIndex}
-        onToggleCollapse={() => setIsHistoryCollapsed(!isHistoryCollapsed)}
-        onItemClick={(index) => {
-          if (selectedItems.length > 0) {
-            toggleItemSelection(index);
-          } else {
-            const selectedUrl = history[index].url;
-            setUrl(selectedUrl);
-            setActiveIndex(index);
-            setActiveTab("parser");
-            const result = urlToReadableJson(selectedUrl);
-            setParsedResult(result);
-          }
-        }}
-        onItemContextMenu={toggleItemSelection}
-        onNewUrl={startNewUrl}
-        onClearHistory={handleClearHistory}
-        onDeleteItem={handleDeleteItem}
-      />
+      {(activeTab === "parser" || activeTab === "diff") && (
+        <HistorySection
+          history={history}
+          isHistoryCollapsed={isHistoryCollapsed}
+          selectedItems={selectedItems}
+          activeIndex={activeIndex}
+          onToggleCollapse={() => setIsHistoryCollapsed(!isHistoryCollapsed)}
+          onItemClick={(index) => {
+            if (selectedItems.length > 0) {
+              toggleItemSelection(index);
+            } else {
+              const selectedUrl = history[index].url;
+              setUrl(selectedUrl);
+              setActiveIndex(index);
+              setActiveTab("parser");
+              const result = urlToReadableJson(selectedUrl);
+              setParsedResult(result);
+            }
+          }}
+          onItemContextMenu={toggleItemSelection}
+          onNewUrl={startNewUrl}
+          onClearHistory={handleClearHistory}
+          onDeleteItem={handleDeleteItem}
+        />
+      )}
 
       <div className="main-content">
         <Header
@@ -213,6 +223,8 @@ function App() {
             )}
           </div>
         )}
+
+        {activeTab === "timestamp" && <TimestampComparer />}
       </div>
 
       {showClearAlert && (

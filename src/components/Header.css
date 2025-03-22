@@ -4,6 +4,36 @@
   gap: 16px;
 }
 
+.module-buttons {
+  display: flex;
+  gap: 8px;
+  padding: 4px;
+  background: var(--textarea-bg);
+  border-radius: 8px;
+}
+
+.module-button {
+  background: none;
+  border: none;
+  color: var(--text-color);
+  padding: 8px;
+  border-radius: 6px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.module-button:hover {
+  background: var(--bg-color);
+}
+
+.module-button.active {
+  background: var(--bg-color);
+  color: var(--button-bg);
+}
+
 .header .new-url-button {
   display: flex;
   align-items: center;

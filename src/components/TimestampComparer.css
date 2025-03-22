@@ -1,0 +1,237 @@
+.timestamp-comparer {
+  padding: 15px;
+  background: var(--textarea-bg);
+  border-radius: 4px;
+}
+
+.timestamp-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.timestamp-header h3 {
+  margin: 0;
+}
+
+.add-timestamp {
+  background: var(--button-bg);
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.timestamps-list {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  background: var(--textarea-bg);
+  border-radius: 4px;
+  padding: 15px;
+}
+
+.timestamp-row {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px;
+  background: var(--bg-color);
+  border-radius: 4px;
+}
+
+.timestamp-input {
+  display: flex;
+  gap: 8px;
+}
+
+.timestamp-input input {
+  flex: 1;
+  padding: 8px;
+  border: 1px solid var(--textarea-border);
+  border-radius: 4px;
+  background: var(--bg-color);
+  color: var(--text-color);
+}
+
+.remove-timestamp {
+  background: none;
+  border: 1px solid var(--textarea-border);
+  color: var(--text-color);
+  width: 32px;
+  height: 32px;
+  border-radius: 4px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+}
+
+.remove-timestamp:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.timestamp-details {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: monospace;
+}
+
+.parsed-time {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.timestamp-value {
+  color: var(--text-color);
+  opacity: 0.7;
+}
+
+.timestamp-parsed {
+  color: var(--text-color);
+}
+
+.set-reference {
+  background: none;
+  border: 1px solid var(--textarea-border);
+  color: var(--text-color);
+  padding: 4px 8px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9em;
+}
+
+.set-reference.active {
+  background: var(--button-bg);
+  color: white;
+  border-color: var(--button-bg);
+}
+
+.time-diff {
+  color: var(--button-bg);
+  font-weight: bold;
+}
+
+.timestamp-error {
+  color: #dc3545;
+  font-size: 0.9em;
+}
+
+.input-container {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 30px;
+}
+
+.input-wrapper {
+  flex: 1;
+  position: relative;
+  display: flex;
+}
+
+.timestamp-input-field {
+  width: 100%;
+  flex: 1;
+  padding: 8px 12px;
+  border: 1px solid var(--textarea-border);
+  border-radius: 4px;
+  background: var(--textarea-bg);
+  color: var(--text-color);
+  font-family: monospace;
+  height: 22px;
+}
+
+.timestamp-input-field:focus {
+  border-color: var(--button-bg);
+  outline: none;
+}
+
+.timestamp-input-field.error {
+  border-color: #dc3545;
+}
+
+.input-error {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  color: #dc3545;
+  font-size: 0.85em;
+  margin-top: 4px;
+}
+
+.parse-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.timestamp-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.action-button {
+  background: none;
+  border: none;
+  color: var(--text-color);
+  opacity: 0.5;
+  cursor: pointer;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.action-button:hover {
+  opacity: 1;
+  color: var(--button-bg);
+}
+
+.timestamp-edit-field {
+  padding: 4px 8px;
+  border: 1px solid var(--textarea-border);
+  border-radius: 4px;
+  background: var(--bg-color);
+  color: var(--text-color);
+  font-family: monospace;
+  min-width: 150px;
+}
+
+.timestamp-edit-field:focus {
+  border-color: var(--button-bg);
+  outline: none;
+}
+
+.timestamp-info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.timestamp-format {
+  color: var(--text-color);
+  opacity: 0.6;
+  font-size: 0.85em;
+  font-style: italic;
+}
+
+.timestamp-parsed-info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.timestamp-relative {
+  color: var(--text-color);
+  opacity: 0.6;
+  font-size: 0.85em;
+  font-style: italic;
+} 
